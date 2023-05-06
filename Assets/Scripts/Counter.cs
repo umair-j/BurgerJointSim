@@ -6,6 +6,6 @@ public class Counter : MonoBehaviour
 {
     public void Interact()
     {
-        Debug.Log(transform.name);
-            }
+        Debug.Log("Interacting");
+    }
 }

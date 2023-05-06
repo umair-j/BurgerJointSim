@@ -13,10 +13,22 @@ public class Player : MonoBehaviour
     private float playerRaycastDistance = 0.4f;
     private float interactionDistance = 2f;
     private Vector3 lastInteractDir;
+
+
+    private void OnEnable()
+    {
+        gameInput.OnInteractAction += GameInput_OnInteractAction;
+    }
+
+    private void GameInput_OnInteractAction()
+    {
+        HandleInteraction();
+    }
+
     void Update()
     {
         HandleMovement();
-        HandleInteraction();
+        //HandleInteraction();
     }
     void HandleInteraction()
     {
