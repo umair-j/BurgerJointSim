@@ -24,6 +24,7 @@ public class SelectedCounterVisual : MonoBehaviour
     {
         selectedCounterVisual.SetActive(true);
         counterVisual.SetActive(false);
+        //UIManager.Instance.CheckSetUI();
     }
     private void ChangeToUnSelectedCounterVisual()
     {

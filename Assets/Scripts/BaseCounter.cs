@@ -7,4 +7,5 @@ public abstract class BaseCounter : MonoBehaviour
     protected const int MAX_STACKABLE_ITEMS = 7;
 
     public abstract void Interact();
+    public abstract List<KitchenObject> GetKitchenObjects();
 }

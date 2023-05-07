@@ -31,7 +31,7 @@ public class Counter : BaseCounter, IKitchenObjectParent
         return objectSpawnPoint;
     }
     
-    public List<KitchenObject> GetKitchenObjects()
+    public override List<KitchenObject> GetKitchenObjects()
     {
         return kitchenObjects;
     }
@@ -72,8 +72,8 @@ public class Counter : BaseCounter, IKitchenObjectParent
             kitchenObjects.Clear();
             // max items stacked
         }
-        
-    }
-    
 
+    }
+
+    
 }

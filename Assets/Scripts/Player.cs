@@ -138,8 +138,8 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     }
     private void SwayKitchenItemVisual()
     {
-        float swayMultiplier = 0.1f;
-        int count = 1;
+        float swayMultiplier = 0.2f;
+        int count = 0;
         foreach (KitchenObject kitchenObject in kitchenObjects)
         {
             Vector3 swayVector = new Vector3(kitchenObject.transform.localPosition.x, kitchenObject.transform.localPosition.y, GetObjectSpawnPoint().localPosition.z + count * swayMultiplier * -1);

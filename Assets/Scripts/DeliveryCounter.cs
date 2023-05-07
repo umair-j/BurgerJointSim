@@ -16,4 +16,10 @@ public class DeliveryCounter : BaseCounter
             // not enough pizzas for delivery
         }
     }
+
+    public override List<KitchenObject> GetKitchenObjects()
+    {
+        return Player.Instance.GetKitchenObjects();
+    }
+
 }
