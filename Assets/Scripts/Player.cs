@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Player : MonoBehaviour, IKitchenObjectParent
 {
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
@@ -24,7 +23,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private List<KitchenObject> kitchenObjects;
     private const int MAX_STACKABLE_ITEMS = 7;
 
-
+    [SerializeField]private KitchenObjectSO kitchenObjectSO;
     public static Player Instance
     {
         get;
@@ -41,12 +40,61 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             Instance = this;
         }
     }
-
+    
     private void OnEnable()
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
+        GameController.OnGameInitialize += GameController_OnGameInitialize;
+        GameController.OnGameSave += GameController_OnGameSave;
         kitchenObjects = new List<KitchenObject>();
     }
+    private void KitchenCountersInit()
+    {
+        if (kitchenObjects == null)
+        {
+            kitchenObjects = new List<KitchenObject>();
+        }
+        ClearKitchenObjects();
+
+        for (int i = 0; i < GameData.Instance.playerKitchenObjectsCount;i++)
+        {
+            Vector3 placementOffset = new Vector3(0, i * kitchenObjectSO.objectHeight, 0);
+            GameObject spawnedPizza = Instantiate(kitchenObjectSO.prefab, objectHoldPoint);
+            spawnedPizza.transform.localPosition = Vector3.zero;
+            spawnedPizza.transform.position = spawnedPizza.transform.position + placementOffset;
+            KitchenObject spawnedObj = spawnedPizza.GetComponent<KitchenObject>();
+            kitchenObjects.Add(spawnedObj);
+        }
+        
+    }
+    private void GameController_OnGameSave()
+    {
+        GameData.Instance.playerPosition = transform.position;
+        GameData.Instance.playerRotation = transform.rotation.eulerAngles;
+        GameData.Instance.playerKitchenObjectsCount = kitchenObjects.Count;
+    }
+    IEnumerator SetPlayerRotationCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SetPlayerRotation(GameData.Instance.playerRotation);
+    }
+    private void GameController_OnGameInitialize()
+    {
+        SetPosition(GameData.Instance.playerPosition);
+        KitchenCountersInit();
+        StartCoroutine(SetPlayerRotationCoroutine());
+    }
+
+    private void SetPlayerRotation(Vector3 playerRotation)
+    {
+        transform.eulerAngles = GameData.Instance.playerRotation; 
+    }
+
+    private void SetPosition(Vector3 playerPosition)
+    {
+        transform.position = playerPosition;
+    }
+
     private void GameInput_OnInteractAction()
     {
         if(selectedCounter != null)
@@ -186,6 +234,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             kitchenObj.SetKitchenObjectParent(this);
         }
     }
+    
     public void ClearKitchenObjects()
     {
         foreach(KitchenObject kitchenObject in kitchenObjects)
@@ -198,4 +247,5 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     {
         kitchenObjects.Add(kitchenObject);
     }
+    
 }

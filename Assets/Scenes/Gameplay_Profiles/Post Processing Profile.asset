@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
   m_Name: AmbientOcclusion
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -155,8 +155,8 @@ MonoBehaviour:
     overrideState: 0
     value: 0.25
   quality:
-    overrideState: 0
-    value: 2
+    overrideState: 1
+    value: 0
 --- !u!114 &3449422699385691748
 MonoBehaviour:
   m_ObjectHideFlags: 3

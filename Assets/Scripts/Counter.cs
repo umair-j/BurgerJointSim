@@ -9,6 +9,10 @@ public class Counter : BaseCounter, IKitchenObjectParent
     [SerializeField] private Transform objectSpawnPoint;
 
     //public Counter secondCounterForTesting;
+    
+    
+    
+    
     private void Start()
     {
         kitchenObjects = new List<KitchenObject>();
@@ -51,29 +55,47 @@ public class Counter : BaseCounter, IKitchenObjectParent
     }
     public override void Interact()
     {
-        int kitchenObjectsCount = kitchenObjects.Count;
-        if (kitchenObjectsCount < MAX_STACKABLE_ITEMS)
+        if (Player.Instance.GetKitchenObjects().Count < MAX_STACKABLE_ITEMS)
         {
-            Vector3 placementOffset = new Vector3(0, kitchenObjectsCount * pizza.objectHeight, 0);
+            if (kitchenObjects.Count < MAX_STACKABLE_ITEMS)
+            {
+                PopulateCounter();
+            }
+            else
+            {
+                Player.Instance.ClearKitchenObjects();
+                foreach (KitchenObject kitchenObj in kitchenObjects)
+                {
+                    kitchenObj.SetKitchenObjectParent(Player.Instance);
+                    Player.Instance.AddKitchenObjects(kitchenObj);
+                }
+                kitchenObjects.Clear();
+                // max items stacked
+            }
+        }
+    }
+    public void PopulateCounter(int count)
+    {
+        for(int i = 0; i < count; i++)
+        {
+            Vector3 placementOffset = new Vector3(0, count * pizza.objectHeight, 0);
             GameObject spawnedPizza = Instantiate(pizza.prefab, objectSpawnPoint);
             spawnedPizza.transform.localPosition = Vector3.zero;
             spawnedPizza.transform.position = spawnedPizza.transform.position + placementOffset;
             KitchenObject spawnedObj = spawnedPizza.GetComponent<KitchenObject>();
             kitchenObjects.Add(spawnedObj);
         }
-        else
-        {
-            Player.Instance.ClearKitchenObjects();
-            foreach (KitchenObject kitchenObj in kitchenObjects)
-            {
-                kitchenObj.SetKitchenObjectParent(Player.Instance);
-                Player.Instance.AddKitchenObjects(kitchenObj);
-            }
-            kitchenObjects.Clear();
-            // max items stacked
-        }
-
+        
+    }
+    public void PopulateCounter()
+    {
+            Vector3 placementOffset = new Vector3(0, kitchenObjects.Count * pizza.objectHeight, 0);
+            GameObject spawnedPizza = Instantiate(pizza.prefab, objectSpawnPoint);
+            spawnedPizza.transform.localPosition = Vector3.zero;
+            spawnedPizza.transform.position = spawnedPizza.transform.position + placementOffset;
+            KitchenObject spawnedObj = spawnedPizza.GetComponent<KitchenObject>();
+            kitchenObjects.Add(spawnedObj);
     }
 
-    
+
 }
