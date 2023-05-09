@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
@@ -23,6 +22,7 @@ public class GameController : MonoBehaviour
     }
     private void InitializeGame()
     {
+        GameDataManager.Get();
         OnGameInitialize?.Invoke();
     }
     public void saveGame()
@@ -30,5 +30,4 @@ public class GameController : MonoBehaviour
         OnGameSave?.Invoke();
         GameDataManager.Set();
     }
-    
 }

@@ -21,6 +21,7 @@ public static class GameDataManager
 {
 	public static void Set()
 	{
+		Debug.Log("Set");
 		MainData data = new MainData();
 		data.settings = new MainData.Record();
 		data.settings.playerPosition = GameData.Instance.playerPosition;
@@ -33,7 +34,7 @@ public static class GameDataManager
 	}
 	public static void Get()
 	{
-		
+		Debug.Log("Get");
 		if (PlayerPrefs.HasKey("Setting"))
 		{
 			string rawGetData = PlayerPrefs.GetString("Setting");
@@ -51,9 +52,11 @@ public static class GameDataManager
 
     private static void ApplyDefaultGameSettings()
     {
+		Debug.Log("Default settings");
 		GameData.Instance.playerPosition = Vector3.zero;
 		GameData.Instance.playerRotation = Vector3.zero;
 		GameData.Instance.playerKitchenObjectsCount = 0;
+		GameData.Instance.cookingCounterKitchenObjectsCount = 0;
     }
 
     private static MainData ParseData(string rawGetData)
@@ -62,7 +65,7 @@ public static class GameDataManager
 		try
 		{
 			data = JsonUtility.FromJson<MainData>(rawGetData);
-			//Debug.Log("In Set : \n" + data);
+			Debug.Log("In Set : \n" + data);
 		}
 		catch
 		{
