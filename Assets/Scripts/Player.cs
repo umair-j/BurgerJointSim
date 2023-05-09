@@ -48,6 +48,12 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         GameController.OnGameSave += GameController_OnGameSave;
         kitchenObjects = new List<KitchenObject>();
     }
+    private void OnDisable()
+    {
+        gameInput.OnInteractAction -= GameInput_OnInteractAction;
+        GameController.OnGameInitialize -= GameController_OnGameInitialize;
+        GameController.OnGameSave -= GameController_OnGameSave;
+    }
     private void KitchenCountersInit()
     {
         if (kitchenObjects == null)

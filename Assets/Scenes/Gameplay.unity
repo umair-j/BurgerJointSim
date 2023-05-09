@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef16d8bc03118c84c99097d6b785fbb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pizza: {fileID: 11400000, guid: 3e500815ba62e1e47893a365939498aa, type: 2}
+  kitchenObjectSO: {fileID: 11400000, guid: 3e500815ba62e1e47893a365939498aa, type: 2}
   objectSpawnPoint: {fileID: 537682854}
 --- !u!4 &190360450
 Transform:

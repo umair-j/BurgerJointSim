@@ -5,14 +5,37 @@ using UnityEngine;
 public class Counter : BaseCounter, IKitchenObjectParent
 {
     private List<KitchenObject> kitchenObjects;
-    [SerializeField] private KitchenObjectSO pizza;
+    [SerializeField] private KitchenObjectSO kitchenObjectSO;
     [SerializeField] private Transform objectSpawnPoint;
 
     //public Counter secondCounterForTesting;
-    
-    
-    
-    
+
+    private void OnEnable()
+    {
+        GameController.OnGameInitialize += GameController_OnGameInitialize;
+        GameController.OnGameSave += GameController_OnGameSave;
+    }
+
+    private void GameController_OnGameSave()
+    {
+        GameData.Instance.cookingCounterKitchenObjectsCount = kitchenObjects.Count;
+    }
+
+    private void GameController_OnGameInitialize()
+    {
+        KitchenCountersInit();
+    }
+    private void KitchenCountersInit()
+    {
+        if (kitchenObjects == null)
+        {
+            kitchenObjects = new List<KitchenObject>();
+        }
+        ClearKitchenObjects();
+
+        PopulateCounter(GameData.Instance.cookingCounterKitchenObjectsCount);
+
+    }
     private void Start()
     {
         kitchenObjects = new List<KitchenObject>();
@@ -41,8 +64,11 @@ public class Counter : BaseCounter, IKitchenObjectParent
     }
     public void ClearKitchenObjects()
     {
+        foreach (KitchenObject kitchenObject in kitchenObjects)
+        {
+            Destroy(kitchenObject.gameObject);
+        }
         kitchenObjects.Clear();
-
     }
     public void SetKitchenObjects(List<KitchenObject> kitchenObjList)
     {
@@ -78,8 +104,8 @@ public class Counter : BaseCounter, IKitchenObjectParent
     {
         for(int i = 0; i < count; i++)
         {
-            Vector3 placementOffset = new Vector3(0, count * pizza.objectHeight, 0);
-            GameObject spawnedPizza = Instantiate(pizza.prefab, objectSpawnPoint);
+            Vector3 placementOffset = new Vector3(0, i * kitchenObjectSO.objectHeight, 0);
+            GameObject spawnedPizza = Instantiate(kitchenObjectSO.prefab, objectSpawnPoint);
             spawnedPizza.transform.localPosition = Vector3.zero;
             spawnedPizza.transform.position = spawnedPizza.transform.position + placementOffset;
             KitchenObject spawnedObj = spawnedPizza.GetComponent<KitchenObject>();
@@ -89,8 +115,8 @@ public class Counter : BaseCounter, IKitchenObjectParent
     }
     public void PopulateCounter()
     {
-            Vector3 placementOffset = new Vector3(0, kitchenObjects.Count * pizza.objectHeight, 0);
-            GameObject spawnedPizza = Instantiate(pizza.prefab, objectSpawnPoint);
+            Vector3 placementOffset = new Vector3(0, kitchenObjects.Count * kitchenObjectSO.objectHeight, 0);
+            GameObject spawnedPizza = Instantiate(kitchenObjectSO.prefab, objectSpawnPoint);
             spawnedPizza.transform.localPosition = Vector3.zero;
             spawnedPizza.transform.position = spawnedPizza.transform.position + placementOffset;
             KitchenObject spawnedObj = spawnedPizza.GetComponent<KitchenObject>();
