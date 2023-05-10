@@ -90,10 +90,18 @@ public class Counter : BaseCounter, IKitchenObjectParent
             else
             {
                 Player.Instance.ClearKitchenObjects();
-                foreach (KitchenObject kitchenObj in kitchenObjects)
+                for(int i = 0;i < kitchenObjects.Count; i++)
                 {
-                    kitchenObj.SetKitchenObjectParent(Player.Instance);
-                    Player.Instance.AddKitchenObjects(kitchenObj);
+                    kitchenObjects[i].SetKitchenObjectParent(Player.Instance);
+                    Player.Instance.AddKitchenObjects(kitchenObjects[i]);
+                    if (i == 0)
+                    {
+                        kitchenObjects[i].GetComponent<FollowObject>().UpdatePosition(Player.Instance.GetObjectSpawnPoint(), 20, true);
+                    }
+                    else
+                    {
+                        kitchenObjects[i].GetComponent<FollowObject>().UpdatePosition(kitchenObjects[i-1].transform, 20, true);
+                    }
                 }
                 kitchenObjects.Clear();
                 // max items stacked

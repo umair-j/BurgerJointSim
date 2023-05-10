@@ -20,6 +20,6 @@ public class KitchenObject : MonoBehaviour
         this.kitchenObjectParent = kitchenObjectParent;
         Vector3 kitchenObjectNewPosition = kitchenObjectParent.GetObjectSpawnPoint().position;
         transform.position = new Vector3(kitchenObjectNewPosition.x, transform.position.y, kitchenObjectNewPosition.z);
-        transform.SetParent(kitchenObjectParent.GetObjectSpawnPoint());
+        //transform.SetParent(kitchenObjectParent.GetObjectSpawnPoint());
     }
 }

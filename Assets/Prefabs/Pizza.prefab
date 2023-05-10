@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5891970633551630945}
   - component: {fileID: -4202101895851226065}
+  - component: {fileID: 1517308466709911976}
   m_Layer: 0
   m_Name: Pizza
   m_TagString: Untagged
@@ -129,3 +130,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: 3e500815ba62e1e47893a365939498aa, type: 2}
+--- !u!114 &1517308466709911976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5891970633551630958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778ca2fd2251e904988322068bd586f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

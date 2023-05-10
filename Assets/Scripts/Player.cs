@@ -65,11 +65,19 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         for (int i = 0; i < GameData.Instance.playerKitchenObjectsCount;i++)
         {
             Vector3 placementOffset = new Vector3(0, i * kitchenObjectSO.objectHeight, 0);
-            GameObject spawnedPizza = Instantiate(kitchenObjectSO.prefab, objectHoldPoint);
-            spawnedPizza.transform.localPosition = Vector3.zero;
+            GameObject spawnedPizza = Instantiate(kitchenObjectSO.prefab);
+            spawnedPizza.transform.localPosition = GetObjectSpawnPoint().position;
             spawnedPizza.transform.position = spawnedPizza.transform.position + placementOffset;
             KitchenObject spawnedObj = spawnedPizza.GetComponent<KitchenObject>();
             kitchenObjects.Add(spawnedObj);
+            if (i == 0)
+            {
+                kitchenObjects[i].GetComponent<FollowObject>().UpdatePosition(Player.Instance.GetObjectSpawnPoint(), 20, true);
+            }
+            else
+            {
+                kitchenObjects[i].GetComponent<FollowObject>().UpdatePosition(kitchenObjects[i - 1].transform, 20, true);
+            }
         }
         
     }
@@ -150,11 +158,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         Vector3 moveDir = new Vector3(InputVector.x, 0, InputVector.y);
         if (moveDir == Vector3.zero)
         {
-            StopSwayKitchenItemVisual();
+            //StopSwayKitchenItemVisual();
         }
         else if (kitchenObjects.Count != 0)
         {
-            SwayKitchenItemVisual();
+            //SwayKitchenItemVisual();
         }
 
         bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, playerRaycastDistance);
@@ -235,9 +243,16 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     {
         kitchenObjects.Clear();
         kitchenObjects = new List<KitchenObject>(kitchenObjList);
-        foreach (KitchenObject kitchenObj in kitchenObjects)
+        for (int i = 0; i < kitchenObjects.Count; i++)
         {
-            kitchenObj.SetKitchenObjectParent(this);
+            //kitchenObj.SetKitchenObjectParent(this);
+            if (i == 0) {
+                kitchenObjects[i].GetComponent<FollowObject>().UpdatePosition(transform, 20f, true);
+            }
+            else
+            {
+                kitchenObjects[i].GetComponent<FollowObject>().UpdatePosition(kitchenObjects[i-1].transform, 20f, true);
+            }
         }
     }
     
